@@ -55,6 +55,9 @@ export type GeneratedStyles = {
   };
 };
 
+/**
+ * Generate css classes for each pokemon type
+ */
 export const getTypeColorStyles = (): GeneratedStyles =>
   Object.values(TYPES).reduce(
     (accumulator, typeValue) => ({

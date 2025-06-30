@@ -30,7 +30,7 @@ export const PokemonDetails = () => {
         {loading && <div>Loading</div>}
         {pokemon.name}
       </DialogTitle>
-      <IconButton className={classes.closeX}>
+      <IconButton className={classes.closeX} onClick={onClose}>
         <CloseIcon />
       </IconButton>
       <DialogContent dividers>
