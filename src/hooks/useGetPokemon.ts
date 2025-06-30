@@ -9,11 +9,11 @@ export type Pokemon = {
   weight: {
     minimum: number;
     maximum: number;
-  }
+  };
   height: {
     minimum: number;
     maximum: number;
-  }
+  };
   classification: string;
   types: string[];
   resistant: string[];
@@ -27,38 +27,44 @@ export type Pokemon = {
 export type UseGetPokemonArguments = {
   id?: string;
   name?: string;
-}
+};
 export const GET_POKEMON = gql`
-  query pokemon($id: String, $name: String){
-  pokemon(id: $id, name: $name){
-    id
-    number
-    name
-    weight{
-      minimum
-      maximum
+  query pokemon($id: String, $name: String) {
+    pokemon(id: $id, name: $name) {
+      id
+      number
+      name
+      weight {
+        minimum
+        maximum
+      }
+      height {
+        minimum
+        maximum
+      }
+      classification
+      types
+      resistant
+      weaknesses
+      fleeRate
+      maxCP
+      maxHP
+      image
     }
-    height{
-      minimum
-      maximum
-    }
-    classification
-    types
-    resistant
-    weaknesses
-    fleeRate
-    maxCP
-    maxHP
-    image
   }
-}
 `;
 
-export const useGetPokemon = ({ id, name }: UseGetPokemonArguments): Omit<QueryResult & { pokemon: Pokemon }, 'data'> => {
+export const useGetPokemon = ({
+  id,
+  name,
+}: UseGetPokemonArguments): Omit<
+  QueryResult & { pokemon: Pokemon },
+  'data'
+> => {
   const { data, ...queryRes } = useQuery(GET_POKEMON, {
     variables: {
       id,
-      name
+      name,
     },
   });
 

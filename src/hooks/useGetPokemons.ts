@@ -22,7 +22,10 @@ export const GET_POKEMONS = gql`
   }
 `;
 
-export const useGetPokemons = (): Omit<QueryResult & { pokemons: Pokemon[] }, 'data'> => {
+export const useGetPokemons = (): Omit<
+  QueryResult & { pokemons: Pokemon[] },
+  'data'
+> => {
   const { data, ...queryRes } = useQuery(GET_POKEMONS, {
     variables: {
       first: 151, // Keep hard coded
