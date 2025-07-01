@@ -4,7 +4,7 @@ import viteTsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
   // depending on your application, base can also be "/"
-  base: '',
+  base: '/pokedex-code-assessment/',
   plugins: [react(), viteTsconfigPaths()],
   assetsInclude: ['**/*.md'],
   server: {
