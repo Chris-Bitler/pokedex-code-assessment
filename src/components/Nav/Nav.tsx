@@ -3,6 +3,8 @@ import { createUseStyles } from 'react-jss';
 import { useLayout, useToggleNav } from '../../contexts';
 import clsx from 'clsx';
 import { NavOption } from './NavOption';
+// @ts-ignore Handled by Vite
+import PokeballImage from '../../assets/pokeball-white.png';
 
 export const Nav = () => {
   const { navCollapsed } = useLayout();
@@ -14,7 +16,7 @@ export const Nav = () => {
       <div className={classes.root}>
         <div className={classes.main}>
           <div className={classes.title}>
-            <img src='/pokeball-white.png' className={classes.img} />
+            <img src={PokeballImage} className={classes.img} />
             <h3>Pokémon</h3>
           </div>
           <NavOption to="/" icon="home" name="Home">
