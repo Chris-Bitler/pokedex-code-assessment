@@ -1,17 +1,11 @@
 import React, { ReactNode, useCallback, useEffect, useState } from 'react';
 import { createUseStyles } from 'react-jss';
 import { Pokemon, useGetPokemons } from '../../hooks/useGetPokemons';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-} from '@mui/material';
 import { getTypesJsx } from 'src/util';
 import { Search } from './Search';
 import { useNavigate } from 'react-router-dom';
 import { getTypeCssProperties } from '../../util';
+import { SearchType } from './types';
 
 export const PokemonList = () => {
   const classes = useStyles();
@@ -19,12 +13,27 @@ export const PokemonList = () => {
   const { pokemons, loading, error } = useGetPokemons();
   const [visiblePokemon, setVisiblePokemon] = useState<Pokemon[]>([]);
 
+  // Not memoizing the result here because this only called when input changes
   const handleSearchInputUpdate = useCallback(
-    (query: string) => {
-      // Not memoizing the result here because this only called when input changes
-      const filteredPokemon = pokemons.filter((pokemon) =>
-        pokemon.name.toLowerCase().includes(query.toLowerCase())
-      );
+    (query: string, filterType: SearchType) => {
+      // Shortcircuit if no input
+      if (query.length == 0) {
+        setVisiblePokemon(pokemons);
+        return;
+      }
+      const filteredPokemon = pokemons.filter((pokemon) => {
+        switch (filterType) {
+          case SearchType.Name:
+            return pokemon.name.toLowerCase().includes(query.toLowerCase());
+          case SearchType.Number: {
+            const numberInt = parseInt(pokemon.number);
+            const queryInt = parseInt(query);
+            return !Number.isNaN(numberInt) && !Number.isNaN(queryInt) && numberInt == queryInt;
+          }
+          case SearchType.Type:
+            return pokemon.types.some((type) => type.toLowerCase().includes(query.toLowerCase()))
+        }
+      });
       setVisiblePokemon(filteredPokemon);
     },
     [pokemons]
@@ -33,10 +42,6 @@ export const PokemonList = () => {
   useEffect(() => {
     setVisiblePokemon(pokemons);
   }, [pokemons]);
-
-  const StyledTableCell = ({ children }: { children: ReactNode }) => (
-    <TableCell className="cell">{children}</TableCell>
-  );
 
   let contents;
 
@@ -54,35 +59,33 @@ export const PokemonList = () => {
     case !loading && visiblePokemon.length > 0:
       contents = (
         <>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <StyledTableCell>ID</StyledTableCell>
-                <StyledTableCell>Image</StyledTableCell>
-                <StyledTableCell>Name</StyledTableCell>
-                <StyledTableCell>Type(s)</StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
+          <table className={classes.table}>
+            <tr>
+              <th>ID</th>
+              <th>Image</th>
+              <th>Name</th>
+              <th>Type(s)</th>
+            </tr>
+            <tbody>
               {visiblePokemon.map((pokemon) => (
-                <TableRow
+                <tr
                   key={pokemon.id}
                   className={classes.item}
                   onClick={() => navigate(`name/${pokemon.name}`)}
                   data-testid={`pokemon-row-${pokemon.name}`}
                 >
-                  <StyledTableCell>{pokemon.number}</StyledTableCell>
-                  <StyledTableCell>
+                  <td className='number'>{pokemon.number}</td>
+                  <td className='image'>
                     <img src={pokemon.image} className="image" />
-                  </StyledTableCell>
-                  <StyledTableCell>{pokemon.name}</StyledTableCell>
-                  <StyledTableCell>
+                  </td>
+                  <td className='name'>{pokemon.name}</td>
+                  <td className='tableTypes'>
                     {getTypesJsx(pokemon.types)}
-                  </StyledTableCell>
-                </TableRow>
+                  </td>
+                </tr>
               ))}
-            </TableBody>
-          </Table>
+            </tbody>
+          </table>
         </>
       );
       break;
@@ -109,10 +112,42 @@ const useStyles = createUseStyles(
       padding: '32px',
       boxSizing: 'border-box',
     },
+    table: {
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      marginTop: '32px',
+      borderCollapse: 'collapse',
+      minWidth: '700px',
+      width: '100%',
+      textAlign: 'left',
+      '& th': {
+        borderBottom: '1px solid',
+      },
+      '& tbody': {
+        '& tr': {
+          borderBottom: '1px solid rgba(105, 105, 105, 0.23)',
+          '& td': {
+            paddingTop: '4px',
+          },
+          '& .number': {
+            width: '9%'
+          },
+          '& .image': {
+            width: '24%',
+          },
+          '& .name': {
+            width: '26%',
+          },
+          '& .tableTypes': {
+            width: '41%',
+          }
+        }
+      }
+    },
     item: {
       '& .image': {
-        width: '40px',
-        height: '40px',
+        width: '80px',
+        height: '80px',
       },
       ...typeCssProperties,
       '&:hover': {

@@ -33,6 +33,23 @@ describe('Pokedex tests', () => {
     expect(queryByText('Bulbasaur')).toBeFalsy();
     expect(queryByText('Ivysaur')).not.toBeFalsy();
   });
+  test('Should render abbreviated list with search field with different search type', () => {
+    const { getByTestId, queryByText } = render(
+      <MockedProvider mocks={mocks}>
+        <App />
+      </MockedProvider>
+    );
+
+    const searchField = getByTestId('search-field');
+    const filterField = getByTestId('filter-field');
+    fireEvent.change(searchField, { target: { value: 'Ivy' } });
+    expect(queryByText('Ivysaur')).not.toBeFalsy();
+    fireEvent.change(filterField, { target: { value: 'Number' } });
+    expect(queryByText('Ivysaur')).toBeFalsy();
+    fireEvent.change(searchField, { target: { value: '2' } });
+    expect(queryByText('Bulbasaur')).toBeFalsy();
+    expect(queryByText('Ivysaur')).not.toBeFalsy();
+  });
   test('Should render modal when user clicks row', async () => {
     const { getByTestId, queryByTestId } = render(
       <MockedProvider mocks={mocks}>
