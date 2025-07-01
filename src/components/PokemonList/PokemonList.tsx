@@ -28,10 +28,16 @@ export const PokemonList = () => {
           case SearchType.Number: {
             const numberInt = parseInt(pokemon.number);
             const queryInt = parseInt(query);
-            return !Number.isNaN(numberInt) && !Number.isNaN(queryInt) && numberInt == queryInt;
+            return (
+              !Number.isNaN(numberInt) &&
+              !Number.isNaN(queryInt) &&
+              numberInt == queryInt
+            );
           }
           case SearchType.Type:
-            return pokemon.types.some((type) => type.toLowerCase().includes(query.toLowerCase()))
+            return pokemon.types.some((type) =>
+              type.toLowerCase().includes(query.toLowerCase())
+            );
         }
       });
       setVisiblePokemon(filteredPokemon);
@@ -74,14 +80,12 @@ export const PokemonList = () => {
                   onClick={() => navigate(`name/${pokemon.name}`)}
                   data-testid={`pokemon-row-${pokemon.name}`}
                 >
-                  <td className='number'>{pokemon.number}</td>
-                  <td className='image'>
+                  <td className="number">{pokemon.number}</td>
+                  <td className="image">
                     <img src={pokemon.image} className="image" />
                   </td>
-                  <td className='name'>{pokemon.name}</td>
-                  <td className='tableTypes'>
-                    {getTypesJsx(pokemon.types)}
-                  </td>
+                  <td className="name">{pokemon.name}</td>
+                  <td className="tableTypes">{getTypesJsx(pokemon.types)}</td>
                 </tr>
               ))}
             </tbody>
@@ -130,7 +134,7 @@ const useStyles = createUseStyles(
             paddingTop: '4px',
           },
           '& .number': {
-            width: '9%'
+            width: '9%',
           },
           '& .image': {
             width: '24%',
@@ -140,9 +144,9 @@ const useStyles = createUseStyles(
           },
           '& .tableTypes': {
             width: '41%',
-          }
-        }
-      }
+          },
+        },
+      },
     },
     item: {
       '& .image': {

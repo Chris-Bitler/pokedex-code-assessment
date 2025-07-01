@@ -8,19 +8,17 @@ type SearchProps = {
 };
 
 const getPlaceholderByFilter = (filterType: SearchType) => {
-    switch (filterType) {
-        case SearchType.Name:
-            return 'Bulbasaur';
-        case SearchType.Number:
-            return '1';
-        case SearchType.Type:
-            return 'Grass';
-    }
-}
+  switch (filterType) {
+    case SearchType.Name:
+      return 'Bulbasaur';
+    case SearchType.Number:
+      return '1';
+    case SearchType.Type:
+      return 'Grass';
+  }
+};
 
-export const Search = ({
-  handleSearchInputUpdate,
-}: SearchProps) => {
+export const Search = ({ handleSearchInputUpdate }: SearchProps) => {
   const classes = useStyles();
   const [filterType, setFilterType] = useState<SearchType>(SearchType.Name);
   const [searchInput, setSearchInput] = useState('');
@@ -35,7 +33,7 @@ export const Search = ({
   ) => {
     const value = event.target.value;
     setFilterType(value as SearchType);
-  }
+  };
 
   useEffect(() => {
     // Send update when either part of the search is changed
@@ -45,9 +43,14 @@ export const Search = ({
   return (
     <>
       <div className={classes.filterInputLabel}>Filter Pokemon:</div>
-      <select className={`${classes.input} ${classes.filterInput}`} onChange={handleFilterOptionChange} value={filterType} data-testid="filter-field">
+      <select
+        className={`${classes.input} ${classes.filterInput}`}
+        onChange={handleFilterOptionChange}
+        value={filterType}
+        data-testid="filter-field"
+      >
         {Object.keys(SearchType).map((type) => {
-            return <option value={type}>{type}</option>
+          return <option value={type}>{type}</option>;
         })}
       </select>
       <input
@@ -71,13 +74,13 @@ const useStyles = createUseStyles(
       border: '1px solid white',
     },
     filterInput: {
-        height: '30px',
-        borderRight: '0',
+      height: '30px',
+      borderRight: '0',
     },
     textInput: {
       height: '24px',
       paddingLeft: '5px',
-    }
+    },
   },
   { name: 'SearchInput' }
 );

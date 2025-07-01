@@ -47,7 +47,7 @@ export const TYPE_COLOR = {
   [TYPES.ROCK]: '#AFA981',
   [TYPES.WATER]: '#2980EF',
   [TYPES.FAIRY]: '#EF70EF',
-  [TYPES.STEEL]: '#60A1B8'
+  [TYPES.STEEL]: '#60A1B8',
 };
 
 export type GeneratedStyles = {
