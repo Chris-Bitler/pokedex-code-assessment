@@ -76,9 +76,13 @@ const useStyles = createUseStyles(
     filterInput: {
       height: '30px',
       borderRight: '0',
+      '@media (max-width: 700px)': {
+        borderRight: '1px solid white',
+        marginBottom: '5px',
+      }
     },
     textInput: {
-      height: '24px',
+      height: '26px',
       paddingLeft: '5px',
     },
   },

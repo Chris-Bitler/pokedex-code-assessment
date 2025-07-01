@@ -65,31 +65,33 @@ export const PokemonList = () => {
     case !loading && visiblePokemon.length > 0:
       contents = (
         <>
-          <table className={classes.table}>
-            <tr>
-              <th>ID</th>
-              <th>Image</th>
-              <th>Name</th>
-              <th>Type(s)</th>
-            </tr>
-            <tbody>
-              {visiblePokemon.map((pokemon) => (
-                <tr
-                  key={pokemon.id}
-                  className={classes.item}
-                  onClick={() => navigate(`name/${pokemon.name}`)}
-                  data-testid={`pokemon-row-${pokemon.name}`}
-                >
-                  <td className="number">{pokemon.number}</td>
-                  <td className="image">
-                    <img src={pokemon.image} className="image" />
-                  </td>
-                  <td className="name">{pokemon.name}</td>
-                  <td className="tableTypes">{getTypesJsx(pokemon.types)}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div className={classes.table}>
+            <ul className='headers'>
+              <li className='numberItem'>ID</li>
+              <li className='imageItem'>Image</li>
+              <li className='nameItem'>Name</li>
+              <li className='tableTypesItem'>Type(s)</li>
+            </ul>
+            {visiblePokemon.map((pokemon) => (
+              <ul
+                key={pokemon.id}
+                className={classes.item}
+                onClick={() => navigate(`name/${pokemon.name}`)}
+                data-testid={`pokemon-row-${pokemon.name}`}
+              >
+                <li className="numberItem">{pokemon.number}</li>
+                <li className="imageItem">
+                  <img src={pokemon.image} className="image" />
+                </li>
+                <li className="nameItem">{pokemon.name}</li>
+                <li className="tableTypesItem">
+                  <div className='typesContainer'>
+                    {getTypesJsx(pokemon.types)}
+                  </div>
+                </li>
+              </ul>
+            ))}
+          </div>
         </>
       );
       break;
@@ -107,7 +109,7 @@ export const PokemonList = () => {
   );
 };
 
-const typeCssProperties = getTypeCssProperties('left');
+const typeCssProperties = getTypeCssProperties('center');
 const useStyles = createUseStyles(
   {
     root: {
@@ -121,31 +123,61 @@ const useStyles = createUseStyles(
       marginRight: 'auto',
       marginTop: '32px',
       borderCollapse: 'collapse',
-      minWidth: '700px',
       width: '100%',
       textAlign: 'left',
+      '& ul': {
+        display: 'flex',
+        alignItems: 'center',
+        marginTop: '0',
+        marginBottom: '0',
+        flexDirection: 'row',
+        '@media (max-width: 700px)': {
+          flexDirection: 'column',
+          '& li': {
+            width: '100% !important',
+            textAlign: 'center',
+          }
+        } 
+      },
+      '& .headers': {
+        borderBottom: '1px solid',
+        listStyleType: 'none',
+        '@media (max-width: 700px)': {
+          display: 'none',
+        }
+      },
       '& th': {
         borderBottom: '1px solid',
       },
-      '& tbody': {
-        '& tr': {
-          borderBottom: '1px solid rgba(105, 105, 105, 0.23)',
-          '& td': {
-            paddingTop: '4px',
-          },
-          '& .number': {
-            width: '9%',
-          },
-          '& .image': {
-            width: '24%',
-          },
-          '& .name': {
-            width: '26%',
-          },
-          '& .tableTypes': {
-            width: '41%',
-          },
+      '& ul:not(.headers)': {
+        borderBottom: '1px solid rgba(105, 105, 105, 0.23)',
+        listStyleType: 'none',
+        '& li': {
+          paddingTop: '4px',
         },
+        '@media (max-width: 700px)': {
+          paddingLeft: '0',
+        }
+      },
+      '& .numberItem': {
+        width: '9%',
+      },
+      '& .imageItem': {
+        width: '24%',
+      },
+      '& .nameItem': {
+        width: '26%',
+      },
+      '& .tableTypesItem': {
+        width: '41%',
+        '& .typesContainer': {
+          height: '100%',
+          display: 'flex',
+          '@media (max-width: 700px)': {
+            justifyContent: 'center',
+            marginBottom: '10px',
+          }
+        }
       },
     },
     item: {
@@ -154,7 +186,7 @@ const useStyles = createUseStyles(
         height: '80px',
       },
       ...typeCssProperties,
-      '&:hover': {
+      '&:hover, &:active': {
         backgroundColor: '#374868',
       },
     },
