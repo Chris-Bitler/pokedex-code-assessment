@@ -26,6 +26,7 @@ export enum TYPES {
   ROCK = 'Rock',
   WATER = 'Water',
   FAIRY = 'Fairy',
+  STEEL = 'Steel',
 }
 
 // Hex codes referenced from https://bulbapedia.bulbagarden.net/wiki/Help:Color_templates#Video_game_types
@@ -46,6 +47,7 @@ export const TYPE_COLOR = {
   [TYPES.ROCK]: '#AFA981',
   [TYPES.WATER]: '#2980EF',
   [TYPES.FAIRY]: '#EF70EF',
+  [TYPES.STEEL]: '#60A1B8'
 };
 
 export type GeneratedStyles = {
