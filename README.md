@@ -7,4 +7,4 @@ Requirements for this can be found on the home page of the app or [here](./src/R
 - Left comment regarding necessity of memoization on properties on the `data` result object
 - Added jest tests into `src/app/tests/App.test.tsx` but as they are not required for the assessment and to make sure I got this turned in with plenty of time to spare, I did not add the things necessary to run these tests
 
-Gitlab pages hosted version of project: [https://chris-bitler1.gitlab.io/senior-eng-ui-assessment-rl/](here)
+Github pages hosted version of project: [https://code-assessment.cbitler.io/](here)
